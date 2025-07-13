@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useState, type ReactNode, useContext } from "react"
 import type {
   Client,
   Order,
@@ -26,6 +26,20 @@ import type {
   CashOperationDetails,
   CashOperationFilters,
 } from "@/types"
+
+// Add nomenclature interface
+interface NomenclatureItem {
+  id: number
+  name: string
+  article: string
+  basePrice: number
+  markup: number
+  finalPrice: number
+  warehouse: string
+  defaultQuantity: number
+  status: "active" | "inactive"
+  category: string
+}
 
 interface AppContextType {
   // Клиенты
@@ -164,9 +178,113 @@ interface AppContextType {
   deleteCashOperation: (id: number) => void
   getCashOperationDetails: (id: number) => CashOperationDetails | null
   getFilteredCashOperations: (filters: CashOperationFilters) => CashOperation[]
+
+  // Номенклатура
+  nomenclature: NomenclatureItem[]
+  setNomenclature: (nomenclature: NomenclatureItem[]) => void
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
+
+// Mock data for nomenclature
+const mockNomenclature: NomenclatureItem[] = [
+  {
+    id: 1,
+    name: "Биочистка Premium",
+    article: "BIO-001",
+    basePrice: 1000,
+    markup: 15,
+    finalPrice: 1150,
+    warehouse: "Основной склад",
+    defaultQuantity: 1,
+    status: "active",
+    category: "Химия",
+  },
+  {
+    id: 2,
+    name: "Пятновыводитель универсальный",
+    article: "STAIN-002",
+    basePrice: 500,
+    markup: 20,
+    finalPrice: 600,
+    warehouse: "Склад №2",
+    defaultQuantity: 2,
+    status: "active",
+    category: "Покрасочные средства",
+  },
+  {
+    id: 3,
+    name: "Кондиционер для меха",
+    article: "FUR-003",
+    basePrice: 800,
+    markup: 25,
+    finalPrice: 1000,
+    warehouse: "Основной склад",
+    defaultQuantity: 1,
+    status: "active",
+    category: "Мех",
+  },
+  {
+    id: 4,
+    name: "Средство для деликатных тканей",
+    article: "DELICATE-004",
+    basePrice: 600,
+    markup: 18,
+    finalPrice: 708,
+    warehouse: "Склад №3",
+    defaultQuantity: 1,
+    status: "inactive",
+    category: "Домашний текстиль",
+  },
+  {
+    id: 5,
+    name: "Очиститель для кожи",
+    article: "LEATHER-005",
+    basePrice: 750,
+    markup: 22,
+    finalPrice: 915,
+    warehouse: "Основной склад",
+    defaultQuantity: 1,
+    status: "active",
+    category: "Сумки",
+  },
+  {
+    id: 6,
+    name: "Отбеливатель кислородный",
+    article: "BLEACH-006",
+    basePrice: 400,
+    markup: 30,
+    finalPrice: 520,
+    warehouse: "Склад №2",
+    defaultQuantity: 3,
+    status: "active",
+    category: "Прачечные услуги",
+  },
+  {
+    id: 7,
+    name: "Антистатик для синтетики",
+    article: "ANTI-007",
+    basePrice: 350,
+    markup: 15,
+    finalPrice: 402.5,
+    warehouse: "Временный склад",
+    defaultQuantity: 2,
+    status: "active",
+    category: "Химия",
+  },
+  {
+    id: 8,
+    name: "Краситель текстильный черный",
+    article: "DYE-008",
+    basePrice: 900,
+    markup: 28,
+    finalPrice: 1152,
+    warehouse: "Основной склад",
+    defaultQuantity: 1,
+    status: "active",
+    category: "Покрасочные средства",
+  },
+]
 
 // Моковые данные для клиентов
 const mockClients: Client[] = [
@@ -1215,6 +1333,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>(mockPaymentTypes)
   const [cashShifts, setCashShifts] = useState<CashShift[]>(mockCashShifts)
   const [cashOperations, setCashOperations] = useState<CashOperation[]>(mockCashOperations)
+  const [nomenclature, setNomenclature] = useState<NomenclatureItem[]>(mockNomenclature)
 
   // Cash operations functions
   const addCashOperation = (operation: CashOperation) => {
@@ -1986,6 +2105,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     deleteCashOperation,
     getCashOperationDetails,
     getFilteredCashOperations,
+    nomenclature,
+    setNomenclature,
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

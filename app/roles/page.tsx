@@ -175,7 +175,7 @@ export default function RolesPage() {
                       onClick={() => toggleRoleStatus(role.id)}
                       className="text-blue-600 hover:text-blue-900 mr-4"
                     >
-                      {role.status === "active" ? "Деактивировать" : "Активиров��������ть"}
+                      {role.status === "active" ? "Деактивировать" : "Активиров����������ть"}
                     </button>
                     <button onClick={() => setEditingRole(role)} className="text-gray-600 hover:text-gray-900 mr-4">
                       <Edit size={18} />

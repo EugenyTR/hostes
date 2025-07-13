@@ -166,7 +166,7 @@ const mockReceipts: Receipt[] = [
     amountBeforeDiscounts: 800,
     cashlessAmount: 0,
     paymentType: "cash",
-    salesPoint: "Т��чка 2",
+    salesPoint: "Т����чка 2",
     items: [
       {
         id: 3,
