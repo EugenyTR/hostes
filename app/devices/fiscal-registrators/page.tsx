@@ -65,103 +65,11 @@ interface FiscalRegistrator {
 const fiscalRegistrators: FiscalRegistrator[] = [
     {
         id: 1,
-        name: "ФР Хозяюшка Водный Стадион",
-        model: "Atol FPrint-22TTK",
+        name: "ФР 22",
+        model: "Атол АТОЛ FPrint-22ПТК",
         serialNumber: "",
-        organization: "Москва Водный...",
-        terminal: "Неактивен",
-        status: "Неактивен",
-        manufacturer: "Atol",
-        symbolsCount: 64,
-    },
-    {
-        id: 2,
-        name: "Виртуальный ФР Авиапарк",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Авиапарк",
-        status: "Активирован",
-    },
-    {
-        id: 3,
-        name: "Виртуальный ФР Лермонтова",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Лермонтова",
-        status: "Активирован",
-    },
-    {
-        id: 4,
-        name: "Виртуальный ФР Партизанская",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Партизанская",
-        status: "Активирован",
-    },
-    {
-        id: 5,
-        name: "Виртуальный ФР Родный",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "",
-        terminal: "Водный стадион",
-        status: "Неактивен",
-    },
-    {
-        id: 6,
-        name: "ФР 5",
-        model: "Атол АТОЛ FPrint-22П...",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Партизанская",
-        status: "Активирован",
-    },
-    {
-        id: 7,
-        name: "ФР 6",
-        model: "Атол АТОЛ FPrint-22П...",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Лермонтова",
-        status: "Активирован",
-    },
-    {
-        id: 8,
-        name: "ФР 7",
-        model: "Атол АТОЛ FPrint-22П...",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Волжская",
-        status: "Активирован",
-    },
-    {
-        id: 9,
-        name: "Водный стадион",
-        model: "Атол АТОЛ FPrint-22П...",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Водный стадион",
-        status: "Активирован",
-    },
-    {
-        id: 10,
-        name: "Виртуальный ФР Волжская",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Волжская",
-        status: "Активирован",
-    },
-    {
-        id: 11,
-        name: "Виртуальный ФР Лосиноостровская",
-        model: "QR Virtual Device",
-        serialNumber: "",
-        organization: "ИП Голикова Мари...",
-        terminal: "Лосиноостровская",
+        organization: "ИП Голикова Мария Вячеславовна",
+        terminal: "Волжская, 14а",
         status: "Активирован",
     },
 ]
@@ -178,7 +86,7 @@ export default function FiscalRegistratorsPage() {
     )
 
     return (
-            <div className="flex h-full">
+            <div className="flex h-full flex-wrap">
                 {/* Основная область */}
                 <div className="flex-1 flex flex-col">
                     {/* Заголовок и кнопки */}
@@ -294,7 +202,7 @@ export default function FiscalRegistratorsPage() {
 
                 {/* Боковая панель с деталями */}
                 {selectedDevice && (
-                    <div className="w-80 bg-white border-l border-gray-200 flex flex-col">
+                    <div className="flex-1 bg-white border-l border-gray-200 flex flex-col">
                         <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                             <h3 className="text-lg font-medium text-gray-900">Основное</h3>
                             <button onClick={() => setSelectedDevice(null)} className="text-gray-400 hover:text-gray-600">
@@ -315,7 +223,7 @@ export default function FiscalRegistratorsPage() {
                             </div>
 
                             {/* Информация об устройстве */}
-                            <div className="space-y-4">
+                            <div className="space-y-4 flex">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">ID:</label>
                                     <div className="text-sm text-gray-900">{selectedDevice.id}</div>
