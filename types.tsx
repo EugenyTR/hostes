@@ -58,7 +58,7 @@ export interface Client {
   referralSource?: string
   companyName?: string
   address: {
-    cityId: number
+    cityId: number | null
     city: string
     street: string
     house: string
@@ -73,7 +73,83 @@ export interface Client {
     legalAddress: string
     priceList: string
   }
-  assignedServices?: number[] // Добавляем массив ID услуг для юр. лиц
+  assignedServices?: number[]
+}
+
+export interface ServiceImage {
+  id: string
+  url: string
+  name: string
+}
+
+export interface TechPassport {
+  contractNumber: string
+  client: string
+  executor: string
+  inn: string
+  city: string
+  street: string
+  phone: string
+  itemName: string
+  manufacturer: string
+  color: string
+  material: string
+  accessories: string
+  processingType: {
+    manual: boolean
+    bioTechnology: boolean
+  }
+  additionalProcessing: {
+    stainRemoval: boolean
+    waterRepellent: boolean
+    atelierService: boolean
+  }
+  lining: {
+    exists: boolean
+    color: string
+    wear: string
+  }
+  manufacturerMarking: string
+  contaminationDegree: string
+  hasHiddenDefects: boolean
+  hasStains: boolean
+  hasRoadReagentStains: boolean
+  wearDegree: string
+  colorFading: string
+  defects: {
+    textile: {
+      pilling: boolean
+      tears: boolean
+      abrasion: boolean
+      odor: boolean
+    }
+    fur: {
+      rigidity: boolean
+      hairLoss: boolean
+      yellowness: boolean
+      odor: boolean
+    }
+    leather: {
+      rigidity: boolean
+      scratches: boolean
+      colorLoss: boolean
+      odor: boolean
+    }
+    suede: {
+      cracks: boolean
+      hairLoss: boolean
+      rigidity: boolean
+      odor: boolean
+    }
+    lining: {
+      heavyContamination: boolean
+      shine: boolean
+      tears: boolean
+      stains: boolean
+    }
+  }
+  notes: string
+  clientConsent: boolean
 }
 
 export interface OrderService {
@@ -91,11 +167,12 @@ export interface OrderService {
     discountAmount: number
     discountType: "percentage" | "fixed"
   }
-  images: string[]
+  images: ServiceImage[]
   readyDate: string
   size?: string
   brand?: string
   color?: string
+  techPassport?: TechPassport
 }
 
 export interface AppliedPromotion {
@@ -130,6 +207,13 @@ export interface Order {
 }
 
 export type OrderStatus = "waiting" | "in-progress" | "completed" | "cancelled"
+
+export interface StatusHistoryItem {
+  id: string
+  timestamp: string
+  status: OrderStatus
+  user: string
+}
 
 export interface StatusHistory {
   id: number
@@ -310,56 +394,54 @@ export interface PaymentType {
   updatedAt: string
 }
 
-// Добавляем новый интерфейс CashShift
 export interface CashShift {
   id: number
-  shiftNumber: string // Номер кассовой смены (совпадает с номером Z-отчета)
-  openTime: string // Время открытия
-  closeTime?: string // Время закрытия (может быть null для открытых смен)
-  fiscalRegistrator: string // Фискальный регистратор
-  openedBy: string // Сотрудник, открывший смену
-  closedBy?: string // Сотрудник, закрывший смену
-  revenue: number // Выручка
-  receiptsCount: number // Количество чеков
-  salesPoint: string // Место реализации
-  previousShiftDifference: number // Разница между суммами на конец прошлой смены и начало текущей
-  cashDifference: number // Разница расчетной и внесенной суммы наличных на конец дня
-  emergencyClose: boolean // Аварийное закрытие
-  status: "open" | "closed" // Статус смены
-  zReportNumber?: string // Номер Z-отчета
-  total: number // Итого
-  fiscalCash: number // Фиск. нал.
-  fiscalCashless: number // Фиск. безнал.
-  nonFiscalCash: number // Нефиск. нал.
-  nonFiscalCashless: number // Нефиск. безнал.
-  nonFiscalBonuses: number // Нефиск. бонусы
-  returns: number // Возвраты
-  returnsFiscalCash: number // Возвраты фиск. нал.
-  returnsFiscalCashless: number // Возвраты фиск. безнал.
-  returnsNonFiscalCash: number // Возвраты нефиск.нал.
-  returnsNonFiscalCashless: number // Возвраты нефиск.безнал.
-  returnsNonFiscalBonuses: number // Возвраты нефиск.бонусы
-  returnsWriteOff: number // Возвраты списание
-  cashAtStart: number // Сумма в кассе на начало дня
-  cashAtEnd: number // Сумма в кассе на конец дня
+  shiftNumber: string
+  openTime: string
+  closeTime?: string
+  fiscalRegistrator: string
+  openedBy: string
+  closedBy?: string
+  revenue: number
+  receiptsCount: number
+  salesPoint: string
+  previousShiftDifference: number
+  cashDifference: number
+  emergencyClose: boolean
+  status: "open" | "closed"
+  zReportNumber?: string
+  total: number
+  fiscalCash: number
+  fiscalCashless: number
+  nonFiscalCash: number
+  nonFiscalCashless: number
+  nonFiscalBonuses: number
+  returns: number
+  returnsFiscalCash: number
+  returnsFiscalCashless: number
+  returnsNonFiscalCash: number
+  returnsNonFiscalCashless: number
+  returnsNonFiscalBonuses: number
+  returnsWriteOff: number
+  cashAtStart: number
+  cashAtEnd: number
   createdAt: string
   updatedAt: string
 }
 
-// Добавляем новые интерфейсы для инкассации
 export interface CashOperation {
   id: number
-  operationNumber: string // № операции в бэк-офисе
-  dateTime: string // Дата и время операции
-  type: "deposit" | "collection" | "auto_collection" | "failed_collection" // Тип операции
-  employee: string // ФИО сотрудника
-  amount: number // Сумма внесения/инкассации
-  cashInRegister: number // Сумма наличных в кассе после операции
-  salesPoint: string // Место реализации
-  fiscalRegistrator: string // Фискальный регистратор
-  comment: string // Комментарий к операции
-  cashShiftNumber: string // Номер кассовой смены
-  status: "completed" | "failed" // Статус операции
+  operationNumber: string
+  dateTime: string
+  type: "deposit" | "collection" | "auto_collection" | "failed_collection"
+  employee: string
+  amount: number
+  cashInRegister: number
+  salesPoint: string
+  fiscalRegistrator: string
+  comment: string
+  cashShiftNumber: string
+  status: "completed" | "failed"
   createdAt: string
   updatedAt: string
 }
@@ -367,19 +449,19 @@ export interface CashOperation {
 export interface CashOperationDetails {
   id: number
   operationNumber: string
-  openTime: string // Время открытия
-  openedBy: string // Сотрудник, открывший смену
+  openTime: string
+  openedBy: string
   status: "completed" | "failed" | "in_progress"
-  cashier: string // Кассир
-  fiscalRegistrator: string // Фискальный регистратор
-  cashShiftNumber: string // Кассовая смена
-  total: number // Итого, ₽
-  revenue: number // Выручка, ₽
-  costPrice: number // Себестоимость, ₽
-  receiptsCount: number // Количество чеков
-  collectionAmount: number // Сумма инкассаций, ₽
-  salesPoint: string // Место реализации
-  recipientAccount: string // Счет-получатель инкассации
+  cashier: string
+  fiscalRegistrator: string
+  cashShiftNumber: string
+  total: number
+  revenue: number
+  costPrice: number
+  receiptsCount: number
+  collectionAmount: number
+  salesPoint: string
+  recipientAccount: string
   createdAt: string
   updatedAt: string
 }
@@ -395,4 +477,22 @@ export interface CashOperationFilters {
   fiscalRegistrator?: string
   cashShiftNumber?: string
   status?: string
+}
+
+export type ClientType = "individual" | "legal"
+export type Gender = "M" | "F"
+
+// Добавляем интерфейс для фискальных регистраторов
+export interface FiscalRegistrator {
+  id: number
+  name: string
+  model: string
+  serialNumber: string
+  organization: string
+  terminal: string
+  status: "active" | "inactive"
+  manufacturer: string
+  symbolsCount: number
+  createdAt: string
+  updatedAt: string
 }
