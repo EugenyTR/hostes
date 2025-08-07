@@ -195,7 +195,7 @@ export default function RFMAnalysis() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Recency (дни)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Новизна (дни)</label>
             <input
               type="number"
               value={settings.recencyDays}
@@ -204,7 +204,7 @@ export default function RFMAnalysis() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Frequency (заказы)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Частота (заказы)</label>
             <input
               type="number"
               value={settings.frequencyOrders}
@@ -213,7 +213,7 @@ export default function RFMAnalysis() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Monetary (рубли)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">В денежном выражении (рубли)</label>
             <input
               type="number"
               value={settings.monetaryAmount}
